@@ -77,7 +77,7 @@ const PermissionTable: React.FC = () => {
             pageSize: 10,
             showSizeChanger: true,
             pageSizeOptions: ["10", "20", "50", "100"],
-            placement: "bottomCenter"
+            placement: ["bottomCenter"]
           }}
         />
       </div>

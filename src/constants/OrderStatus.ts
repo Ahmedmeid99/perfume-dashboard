@@ -1,12 +1,14 @@
-export enum OrderStatus {
-  Pending = 1,
-  Confirmed = 2,
-  Processing = 3,
-  Shipped = 4,
-  Delivered = 5,
-  Cancelled = 6,
-  Returned = 7,
-}
+export const OrderStatus = {
+  Pending: 1,
+  Confirmed: 2,
+  Processing: 3,
+  Shipped: 4,
+  Delivered: 5,
+  Cancelled: 6,
+  Returned: 7,
+} as const;
+
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
 export interface OrderStatusDetails {
   label: string;

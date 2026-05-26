@@ -1,7 +1,6 @@
 import React from "react";
 import { Form, Input, InputNumber, Select, Card, Row, Col, Upload, Button, message } from "antd";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
-import type { UploadFile } from "antd";
 import { useFormikContext } from "formik";
 import { useDispatch } from "react-redux";
 import { deleteFile } from "../../../redux/actions/Apis";

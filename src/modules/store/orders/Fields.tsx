@@ -70,7 +70,7 @@ const OrderFields: React.FC = () => {
           value={record.productId}
           onChange={(val) => handleProductChange(index, val)}
           filterOption={(input, option) =>
-            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            String(option?.label ?? "").toLowerCase().includes(String(input).toLowerCase())
           }
           options={products?.map((p: any) => ({
             value: p.productId,
@@ -150,7 +150,7 @@ const OrderFields: React.FC = () => {
                 value={values.userId}
                 onChange={(val) => setFieldValue("userId", val)}
                 filterOption={(input, option) =>
-                  (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+                  String(option?.label ?? "").toLowerCase().includes(String(input).toLowerCase())
                 }
                 options={users?.map((u: any) => ({
                   value: u.userId,

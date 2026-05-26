@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Table, Button, Space, Popconfirm, Input } from "antd";
+import { Table, Button, Space, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -96,7 +96,7 @@ const CategoryTable: React.FC = () => {
             pageSize: 10,
             showSizeChanger: true,
             pageSizeOptions: ["10", "20", "50"],
-            placement: "bottomCenter"
+            placement: ["bottomCenter"]
           }}
         />
       </div>

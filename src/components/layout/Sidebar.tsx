@@ -4,14 +4,8 @@ import { Button } from "antd";
 import {
   DashboardOutlined,
   CarOutlined,
-  UserOutlined,
-  SettingOutlined,
   LogoutOutlined,
-  LineChartOutlined,
-  TeamOutlined,
-  EnvironmentOutlined,
   AppstoreOutlined,
-  StarOutlined,
   CloseOutlined
 } from "@ant-design/icons";
 

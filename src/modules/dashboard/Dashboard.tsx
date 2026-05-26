@@ -6,12 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { fetchCollection } from "../../redux/actions/Apis";
 import { 
-  ArrowUpOutlined, 
   ShoppingOutlined, 
   AppstoreOutlined, 
-  DollarCircleOutlined,
-  FilterOutlined,
-  SearchOutlined
+  DollarCircleOutlined
 } from "@ant-design/icons";
 
 const Dashboard: React.FC = () => {

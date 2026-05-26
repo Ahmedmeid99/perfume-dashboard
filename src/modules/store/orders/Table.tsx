@@ -113,7 +113,7 @@ const OrderTable: React.FC<TableProps> = ({ onView }) => {
             pageSize: 10,
             showSizeChanger: true,
             pageSizeOptions: ["10", "20", "50"],
-            placement: "bottomCenter"
+            placement: ["bottomCenter"]
           }}
         />
       </div>

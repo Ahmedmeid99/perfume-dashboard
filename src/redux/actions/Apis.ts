@@ -89,7 +89,7 @@ export const fetchCollectionNew = (
   pagination: any = {},
   search: string = "",
   filters: any = null,
-  sorter: any = null
+  _sorter: any = null
 ) => {
   return (dispatch: any) => {
     dispatch({ type: FETCH_START });
@@ -125,7 +125,7 @@ export const fetchCollectionNew = (
 export const createResource = (
   resource: string,
   payload: any,
-  callback = (res: any, data?: any) => res
+  callback = (res: any, _data?: any) => res
 ) => {
   return (dispatch: any) => {
     dispatch({ type: FETCH_START });
@@ -212,7 +212,7 @@ export const uploadFile = (
   id: any,
   file: File,
   subPath: string = "image",
-  callback = (res: any, data?: any) => res
+  callback = (res: any, _data?: any) => res
 ) => {
   return (dispatch: any) => {
     dispatch({ type: FETCH_START });
@@ -249,7 +249,7 @@ export const uploadFile = (
 export const deleteFile = (
   resource: string,
   id: any,
-  isProduct: boolean = true,
+  _isProduct: boolean = true,
   subPath: string = "image",
   callback = (res: any) => res
 ) => {

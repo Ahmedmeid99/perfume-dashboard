@@ -12,7 +12,7 @@ export const logout = () => {
     payload: null,
   };
 };
-export const authLogin = (email, password) => async (dispatch) => {
+export const authLogin = (email: string, password: string) => async (dispatch: any) => {
   try {
     const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, { email, password });
 

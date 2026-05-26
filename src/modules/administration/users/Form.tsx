@@ -18,7 +18,6 @@ const UserForm: React.FC = () => {
   const { show: currentUser, lists } = useSelector((state: any) => state.users || { show: null, lists: null });
   const roles = lists?.roles || [];
   const companies = lists?.companies || [];
-  const { user: authUser } = useSelector((state: RootState) => state.auth);
   const { loading } = useSelector((state: RootState) => state.common);
 
   useEffect(() => {
