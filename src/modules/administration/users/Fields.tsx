@@ -6,10 +6,21 @@ interface FieldsProps {
   roles: any[];
   companies: any[];
   isEdit?: boolean;
+  userType?: "users" | "admins";
 }
 
-const UserFields: React.FC<FieldsProps> = ({ roles, companies, isEdit }) => {
+const UserFields: React.FC<FieldsProps> = ({ roles, companies, isEdit, userType = "users" }) => {
   const { values, errors, touched, setFieldValue, handleBlur, handleChange } = useFormikContext<any>();
+
+  // Filter roles based on userType if provided
+  const filteredRoles = React.useMemo(() => {
+    if (userType === "admins") {
+      return roles.filter(r => r.roleId === 7);
+    } else if (userType === "users") {
+      return roles.filter(r => r.roleId === 1);
+    }
+    return roles;
+  }, [roles, userType]);
 
   return (
     <div className="space-y-6">
@@ -156,8 +167,9 @@ const UserFields: React.FC<FieldsProps> = ({ roles, companies, isEdit }) => {
                 value={values.roleId}
                 onChange={(value) => setFieldValue("roleId", value)}
                 onBlur={() => handleBlur({ target: { name: "roleId" } })}
+                disabled={!!userType}
               >
-                {roles.map(r => (
+                {filteredRoles.map(r => (
                   <Select.Option key={r.roleId} value={r.roleId}>{r.roleName}</Select.Option>
                 ))}
               </Select>

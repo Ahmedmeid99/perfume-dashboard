@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { fetchCollection, deleteResource } from "../../../redux/actions/Apis";
 import type { RootState } from "../../../redux/store";
 import EditBtn from "../../../components/ui/EditBtn";
-import DeleteBtn from "../../../components/ui/DeleteBtn";
 
 const PermissionTable: React.FC = () => {
   const dispatch = useDispatch();
@@ -33,7 +32,6 @@ const PermissionTable: React.FC = () => {
       render: (_: any, record: any) => (
         <Space size="small">
           <EditBtn to={`${record.permissionId}/edit`} />
-          <DeleteBtn onClick={() => handleDelete(record.permissionId)} />
         </Space>
       ),
     },

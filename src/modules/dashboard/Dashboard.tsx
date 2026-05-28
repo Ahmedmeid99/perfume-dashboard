@@ -5,32 +5,34 @@ import { OrderStatusMap, OrderStatus } from "../../constants/OrderStatus";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { fetchCollection } from "../../redux/actions/Apis";
-import { 
-  ShoppingOutlined, 
-  AppstoreOutlined, 
-  DollarCircleOutlined
+import {
+  ShoppingOutlined,
+  AppstoreOutlined,
+  DollarCircleOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  EnvironmentOutlined
 } from "@ant-design/icons";
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
-  const products = useSelector((state: any) => state.products || { data: [] });
-  const categories = useSelector((state: any) => state.categories || { data: [] });
-  const orders = useSelector((state: any) => state.orders || { data: [] });
+  const dashboard = useSelector((state: RootState) => state.dashboard || { data: { summary: null, monthlySales: null, latestOrders: [] } });
 
   useEffect(() => {
-    if (user?.companyId) {
-      dispatch(fetchCollection(`Products/company/${user.companyId}`) as any);
-      dispatch(fetchCollection(`ProductCategories/company/${user.companyId}`) as any);
-      dispatch(fetchCollection(`Orders/company/${user.companyId}`) as any);
-    }
+    dispatch(fetchCollection("Dashboard") as any);
   }, [dispatch, user]);
 
+  const summary = dashboard.data?.summary || {};
+  const monthlySales = dashboard.data?.monthlySales || {};
+  const latestOrders = dashboard.data?.latestOrders || [];
+  const company = dashboard.data?.company || null;
+
   const stats = [
-    { title: "إجمالي المنتجات", value: products.data?.length || 0, icon: <ShoppingOutlined />, color: "text-blue-500" },
-    { title: "التصنيفات", value: categories.data?.length || 0, icon: <AppstoreOutlined />, color: "text-purple-500" },
-    { title: "إجمالي الطلبات", value: orders.data?.length || 0, icon: <DollarCircleOutlined />, color: "text-green-500" },
-    { title: "إجمالي المبيعات", value: orders.data?.reduce((acc: number, o: any) => acc + (o.totalAmount || 0), 0).toFixed(2) || "0.00", icon: <DollarCircleOutlined />, color: "text-amber-500" },
+    { title: "إجمالي المنتجات", value: summary.totalProducts ?? 0, icon: <ShoppingOutlined />, color: "text-blue-500" },
+    { title: "التصنيفات", value: summary.totalCategories ?? 0, icon: <AppstoreOutlined />, color: "text-purple-500" },
+    { title: "إجمالي الطلبات", value: summary.totalOrders ?? 0, icon: <DollarCircleOutlined />, color: "text-green-500" },
+    { title: "إجمالي المبيعات", value: typeof summary.totalSales === 'number' ? summary.totalSales.toFixed(2) : (summary.totalSales || "0.00"), icon: <DollarCircleOutlined />, color: "text-amber-500" },
   ];
 
   const chartOptions: any = {
@@ -68,7 +70,20 @@ const Dashboard: React.FC = () => {
   const chartSeries = [
     {
       name: "المبيعات الشهرية",
-      data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 100, 120, 140],
+      data: [
+        monthlySales.jan || 0,
+        monthlySales.feb || 0,
+        monthlySales.mar || 0,
+        monthlySales.apr || 0,
+        monthlySales.may || 0,
+        monthlySales.jun || 0,
+        monthlySales.jul || 0,
+        monthlySales.aug || 0,
+        monthlySales.sep || 0,
+        monthlySales.oct || 0,
+        monthlySales.nov || 0,
+        monthlySales.dece || 0,
+      ],
     },
   ];
 
@@ -99,6 +114,62 @@ const Dashboard: React.FC = () => {
           <p className="text-gray-400">نظرة عامة على أداء متجرك اليوم</p>
         </div>
       </div>
+
+      {/* Company Info Banner */}
+      {company && (
+        <div className="premium-card p-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6 bg-gradient-to-r from-blue-900/10 via-transparent to-transparent">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 w-full">
+            {company.logo ? (
+              <img 
+                src={company.logo} 
+                alt={company.companyNameAr || company.companyName} 
+                className="w-20 h-20 rounded-2xl object-cover border border-white/10 shadow-lg animate-fade-in"
+              />
+            ) : (
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-3xl font-bold border border-blue-500/30 shadow-lg">
+                {(company.companyNameAr || company.companyName || "C").charAt(0)}
+              </div>
+            )}
+            <div className="text-center md:text-right space-y-2 flex-1">
+              <div className="flex flex-col md:flex-row items-center gap-3 justify-center md:justify-start">
+                <h2 className="text-2xl font-bold text-white">
+                  {company.companyNameAr || company.companyName}
+                </h2>
+                {company.isActive && (
+                  <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                    نشط
+                  </span>
+                )}
+              </div>
+              <p className="text-gray-400 text-sm max-w-xl">
+                مرحباً بك مجدداً في لوحة التحكم الخاصة بشركتك. هنا يمكنك متابعة المبيعات، وإدارة طلبات العملاء وتتبع المؤشرات الرئيسية.
+              </p>
+              
+              <div className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 pt-2 text-xs text-gray-500">
+                {company.email && (
+                  <span className="flex items-center gap-1.5">
+                    <MailOutlined className="text-blue-400" />
+                    {company.email}
+                  </span>
+                )}
+                {company.phone && (
+                  <span className="flex items-center gap-1.5">
+                    <PhoneOutlined className="text-blue-400" />
+                    {company.phone}
+                  </span>
+                )}
+                {company.address && (
+                  <span className="flex items-center gap-1.5">
+                    <EnvironmentOutlined className="text-blue-400" />
+                    {company.address}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -135,11 +206,11 @@ const Dashboard: React.FC = () => {
         <div className="p-6 border-b border-dark-600">
           <h3 className="text-xl font-bold text-white">آخر الطلبات</h3>
         </div>
-        
+
         <div className="p-6">
           <Table 
             columns={columns} 
-            dataSource={orders.data?.slice(0, 5) || []} 
+            dataSource={latestOrders.slice(0, 5)} 
             pagination={false}
             className="premium-table"
             rowKey="orderId"

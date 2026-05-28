@@ -3,12 +3,16 @@ import { Route, Routes } from "react-router-dom";
 import UserTable from "./Table";
 import UserForm from "./Form";
 
-const Users: React.FC = () => {
+interface UsersProps {
+  userType?: "users" | "admins";
+}
+
+const Users: React.FC<UsersProps> = ({ userType = "users" }) => {
   return (
     <Routes>
-      <Route index element={<UserTable />} />
-      <Route path="new" element={<UserForm />} />
-      <Route path=":id/edit" element={<UserForm />} />
+      <Route index element={<UserTable userType={userType} />} />
+      <Route path="new" element={<UserForm userType={userType} />} />
+      <Route path=":id/edit" element={<UserForm userType={userType} />} />
     </Routes>
   );
 };

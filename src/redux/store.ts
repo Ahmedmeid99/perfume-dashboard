@@ -9,6 +9,7 @@ import rolesReducer from "./reducers/Roles";
 import permissionsReducer from "./reducers/Permissions";
 import reviewsReducer from "./reducers/Reviews";
 import companiesReducer from "./reducers/Companies";
+import dashboardReducer from "./reducers/Dashboard";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   permissions: permissionsReducer,
   reviews: reviewsReducer,
   companies: companiesReducer,
+  dashboard: dashboardReducer,
   // Add other reducers here as they are created
 });
 

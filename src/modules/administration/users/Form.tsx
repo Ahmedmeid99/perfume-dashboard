@@ -10,7 +10,11 @@ import UserFields from "./Fields";
 import { fetchResource, createResource, updateResource, fetchCollection } from "../../../redux/actions/Apis";
 import type { RootState } from "../../../redux/store";
 
-const UserForm: React.FC = () => {
+interface FormProps {
+  userType?: "users" | "admins";
+}
+
+const UserForm: React.FC<FormProps> = ({ userType = "users" }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,7 +55,7 @@ const UserForm: React.FC = () => {
     email: currentUser?.email || "",
     phone: currentUser?.phone || "",
     address: currentUser?.address || "",
-    roleId: currentUser?.roleId || undefined,
+    roleId: currentUser?.roleId || (userType === "admins" ? 7 : userType === "users" ? 1 : undefined),
     companyId: currentUser?.companyId || undefined,
     dateOfBirth: currentUser?.dateOfBirth ? dayjs(currentUser.dateOfBirth) : null,
     password: "",
@@ -73,11 +77,11 @@ const UserForm: React.FC = () => {
         delete finalPayload.password;
       }
       dispatch(updateResource("Users", id, finalPayload, (res) => {
-        if (res === 200) navigate("/users");
+        if (res === 200) navigate(userType === "admins" ? "/admins" : "/users");
       }) as any);
     } else {
       dispatch(createResource("Users", finalPayload, (res) => {
-        if (res === 200) navigate("/users");
+        if (res === 200) navigate(userType === "admins" ? "/admins" : "/users");
       }) as any);
     }
   };
@@ -97,13 +101,15 @@ const UserForm: React.FC = () => {
                 <Button
                   type="text"
                   icon={<ArrowRightOutlined />}
-                  onClick={() => navigate("/users")}
+                  onClick={() => navigate(userType === "admins" ? "/admins" : "/users")}
                   className="text-gray-400 hover:text-white mb-2"
                 >
-                  العودة للمستخدمين
+                  {userType === "admins" ? "العودة للمدراء" : "العودة للمستخدمين"}
                 </Button>
                 <h1 className="text-2xl lg:text-3xl font-bold text-white">
-                  {id ? "تعديل مستخدم" : "إضافة مستخدم جديد"}
+                  {id
+                    ? userType === "admins" ? "تعديل مدير" : "تعديل مستخدم"
+                    : userType === "admins" ? "إضافة مدير جديد" : "إضافة مستخدم جديد"}
                 </h1>
               </div>
               <Button
@@ -118,7 +124,7 @@ const UserForm: React.FC = () => {
               </Button>
             </div>
 
-            <UserFields roles={roles || []} companies={companies || []} isEdit={!!id} />
+            <UserFields roles={roles || []} companies={companies || []} isEdit={!!id} userType={userType} />
 
             <div className="flex justify-end mt-6">
               <Button
