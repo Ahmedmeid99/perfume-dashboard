@@ -3,7 +3,7 @@ import { Table, Button, Space, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchCollection, deleteResource } from "../../../redux/actions/Apis";
+import { fetchCollection } from "../../../redux/actions/Apis";
 import type { RootState } from "../../../redux/store";
 import EditBtn from "../../../components/ui/EditBtn";
 
@@ -16,12 +16,6 @@ const PermissionTable: React.FC = () => {
   useEffect(() => {
     dispatch(fetchCollection("Permissions?pageSize=100") as any);
   }, [dispatch]);
-
-  const handleDelete = (id: number) => {
-    dispatch(deleteResource("Permissions", id) as any).then((success: boolean) => {
-      if (success) dispatch(fetchCollection("Permissions") as any);
-    });
-  };
 
   const columns = [
     { title: "اسم الصلاحية", dataIndex: "displayName", key: "displayName", className: "text-white", ellipsis: true },

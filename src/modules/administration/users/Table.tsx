@@ -3,7 +3,7 @@ import { Table, Button, Space, Tag } from "antd";
 import { UserAddOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchCollection, deleteResource, fetchSubCollection } from "../../../redux/actions/Apis";
+import { deleteResource, fetchSubCollection } from "../../../redux/actions/Apis";
 import type { RootState } from "../../../redux/store";
 import EditBtn from "../../../components/ui/EditBtn";
 import DeleteBtn from "../../../components/ui/DeleteBtn";
