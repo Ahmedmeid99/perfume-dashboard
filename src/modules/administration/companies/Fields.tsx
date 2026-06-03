@@ -3,6 +3,7 @@ import { Form, Input, Card, Row, Col, Switch, Upload, Button, message } from "an
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { deleteFile } from "../../../redux/actions/Apis";
+import { getImageUrl } from "../../../utils/image";
 import { useFormikContext } from "formik";
 
 const CompanyFields: React.FC = () => {
@@ -148,7 +149,7 @@ const CompanyFields: React.FC = () => {
         {values.logo && (
           <div className="relative group w-32 h-32 mb-4">
             <img 
-              src={values.logo} 
+              src={getImageUrl(values.logo)} 
               alt="Logo" 
               className="w-full h-full object-cover rounded-lg border border-gray-700" 
             />

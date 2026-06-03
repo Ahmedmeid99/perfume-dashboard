@@ -7,6 +7,7 @@ import { fetchCollection, deleteResource } from "../../../redux/actions/Apis";
 import type { RootState } from "../../../redux/store";
 import EditBtn from "../../../components/ui/EditBtn";
 import DeleteBtn from "../../../components/ui/DeleteBtn";
+import { getImageUrl } from "../../../utils/image";
 
 const CategoryTable: React.FC = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const CategoryTable: React.FC = () => {
       render: (images: any[]) => (
         images && images.length > 0 ? (
           <img 
-            src={images[0].imageUrl} 
+            src={getImageUrl(images[0].imageUrl)} 
             alt="category" 
             className="w-12 h-12 object-cover rounded shadow-sm"
           />

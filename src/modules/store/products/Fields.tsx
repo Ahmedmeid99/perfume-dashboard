@@ -4,6 +4,7 @@ import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useFormikContext } from "formik";
 import { useDispatch } from "react-redux";
 import { deleteFile } from "../../../redux/actions/Apis";
+import { getImageUrl } from "../../../utils/image";
 
 interface FieldsProps {
   categories: any[];
@@ -149,7 +150,7 @@ const ProductFields: React.FC<FieldsProps> = ({ categories }) => {
           {values.productImages?.map((img: any, index: number) => (
             <div key={img.imageId || index} className="relative group">
               <img 
-                src={img.imageUrl} 
+                src={getImageUrl(img.imageUrl)} 
                 alt={`Product ${index}`} 
                 className="w-32 h-32 object-cover rounded-lg border border-gray-700" 
               />

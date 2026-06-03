@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/Auth";
 import type { RootState } from "../../redux/store";
 import { PERMISSIONS } from "../../constants/Permissions";
+import { getImageUrl } from "../../utils/image";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -91,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center bg-primary">
             {companyLogo ? (
-              <img src={companyLogo} alt={companyName} className="object-cover w-full h-full" />
+              <img src={getImageUrl(companyLogo)} alt={companyName} className="object-cover w-full h-full" />
             ) : (
               <div className="w-full h-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">
                 {(companyName || 'C').charAt(0)}

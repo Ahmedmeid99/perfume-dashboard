@@ -5,6 +5,7 @@ import { OrderStatusMap, OrderStatus } from "../../constants/OrderStatus";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { fetchCollection } from "../../redux/actions/Apis";
+import { getImageUrl } from "../../utils/image";
 import {
   ShoppingOutlined,
   AppstoreOutlined,
@@ -121,7 +122,7 @@ const Dashboard: React.FC = () => {
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6 w-full">
             {company.logo ? (
               <img 
-                src={company.logo} 
+                src={getImageUrl(company.logo)} 
                 alt={company.companyNameAr || company.companyName} 
                 className="w-20 h-20 rounded-2xl object-cover border border-white/10 shadow-lg animate-fade-in"
               />

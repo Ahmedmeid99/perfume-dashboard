@@ -2,6 +2,7 @@ import React from "react";
 import { useFormikContext } from "formik";
 import { useDispatch } from "react-redux";
 import { deleteFile } from "../../../redux/actions/Apis";
+import { getImageUrl } from "../../../utils/image";
 import { Form, Input, Card, Row, Col, Upload, Button, message } from "antd";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 
@@ -54,7 +55,7 @@ const CategoryFields: React.FC = () => {
           {values.categoryImages?.map((img: any, index: number) => (
             <div key={img.imageId || index} className="relative group">
               <img 
-                src={img.imageUrl} 
+                src={getImageUrl(img.imageUrl)} 
                 alt={`Category ${index}`} 
                 className="w-32 h-32 object-cover rounded-lg border border-gray-700" 
               />
