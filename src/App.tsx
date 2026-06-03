@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "./redux/store";
+import { fetchCollection } from "./redux/actions/Apis";
 import Login from "./modules/auth/Login";
 import Dashboard from "./modules/dashboard/Dashboard";
 import Products from "./modules/store/products";
@@ -12,6 +13,7 @@ import Roles from "./modules/administration/roles";
 import Permissions from "./modules/administration/permissions";
 import Companies from "./modules/administration/companies";
 import Reviews from "./modules/store/reviews";
+import Gallery from "./modules/store/gallery";
 import Header from "./components/layout/Header";
 import Sidebar from "./components/layout/Sidebar";
 import { ConfigProvider, theme } from "antd";
@@ -21,8 +23,16 @@ import "react-toastify/dist/ReactToastify.css";
 
 const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { accessToken } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+
+  // Fetch company info once when authenticated — makes logo/name available on all pages
+  useEffect(() => {
+    if (accessToken) {
+      dispatch(fetchCollection("Dashboard") as any);
+    }
+  }, [accessToken, dispatch]);
 
   // Close sidebar on route change (mobile)
   useEffect(() => {
@@ -87,6 +97,7 @@ const App: React.FC = () => {
                   <Route path="/permissions/*" element={<Permissions />} />
                   <Route path="/companies/*" element={<Companies />} />
                   <Route path="/reviews/*" element={<Reviews />} />
+                  <Route path="/gallery/*" element={<Gallery />} />
                   {/* Add other protected routes here */}
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

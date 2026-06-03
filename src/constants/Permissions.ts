@@ -44,6 +44,12 @@ export const PERMISSIONS = {
   CreateProductCategories: 86,
   EditProductCategories: 87,
   DeleteProductCategories: 88,
+
+  // Gallery Images
+  ViewGallery: 89,
+  CreateGallery: 90,
+  EditGallery: 91,
+  DeleteGallery: 92,
 } as const;
 
 export type PermissionKey = keyof typeof PERMISSIONS;

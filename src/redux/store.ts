@@ -10,6 +10,7 @@ import permissionsReducer from "./reducers/Permissions";
 import reviewsReducer from "./reducers/Reviews";
 import companiesReducer from "./reducers/Companies";
 import dashboardReducer from "./reducers/Dashboard";
+import galleryImagesReducer from "./reducers/GalleryImages";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   reviews: reviewsReducer,
   companies: companiesReducer,
   dashboard: dashboardReducer,
+  galleryImages: galleryImagesReducer,
   // Add other reducers here as they are created
 });
 

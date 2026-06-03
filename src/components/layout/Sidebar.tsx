@@ -10,7 +10,8 @@ import {
   UserOutlined,
   ShopOutlined,
   SafetyCertificateOutlined,
-  LockOutlined
+  LockOutlined,
+  PictureOutlined
 } from "@ant-design/icons";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -57,6 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     { title: "المنتجات", icon: <AppstoreOutlined />, path: "/products", permissionId: PERMISSIONS.ViewProductCatalogs },
     { title: "التصنيفات", icon: <AppstoreOutlined />, path: "/categories", permissionId: PERMISSIONS.ViewProductCategories },
     { title: "الطلبات", icon: <CarOutlined />, path: "/orders", permissionId: PERMISSIONS.ViewOrders },
+    { title: "معرض الصور", icon: <PictureOutlined />, path: "/gallery", permissionId: PERMISSIONS.ViewGallery },
     { title: "المستخدمين", icon: <UserOutlined />, path: "/users", permissionId: PERMISSIONS.ViewUsers },
   ];
 
