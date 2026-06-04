@@ -31,13 +31,13 @@ const OrderDetails: React.FC = () => {
             type="text"
             icon={<ArrowRightOutlined />}
             onClick={() => navigate("/orders")}
-            className="text-gray-400 hover:text-white mb-2"
+            className="text-gray-400 hover:text-white mb-2 no-print"
           >
             العودة للطلبات
           </Button>
-          <h1 className="text-2xl lg:text-3xl font-bold text-white">تفاصيل الطلب #{order.orderId}</h1>
+          <h1 className="text-2xl lg:text-3xl font-bold text-white no-print">تفاصيل الطلب #{order.orderId}</h1>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 no-print">
           <span className="text-gray-400 text-sm hidden md:inline">تحديث حالة الطلب:</span>
           <Select
             value={order.status}
@@ -49,19 +49,46 @@ const OrderDetails: React.FC = () => {
               label: config.label,
             }))}
           />
-          <Tag color={OrderStatusMap[order.status as OrderStatus]?.color || "default"} className="text-lg px-4 py-1 m-0">
+          <Tag color={OrderStatusMap[order.status as OrderStatus]?.color || "default"} className="text-lg px-4 py-1 m-0 no-print">
             {OrderStatusMap[order.status as OrderStatus]?.label || `حالة #${order.status}`}
           </Tag>
         </div>
       </div>
 
       <Card className="premium-card">
-        <Descriptions bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} className="premium-descriptions">
-          <Descriptions.Item label="العميل">{order.userName}</Descriptions.Item>
-          <Descriptions.Item label="رقم العميل">{order.userId}</Descriptions.Item>
-          <Descriptions.Item label="التاريخ">{order.orderDate}</Descriptions.Item>
+        <Descriptions
+          bordered
+          column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
+          className="premium-descriptions"
+        >
+          <Descriptions.Item label="العميل">
+            {order.user?.userName}
+          </Descriptions.Item>
+
+          <Descriptions.Item label="رقم العميل">
+            {order.user?.userId}
+          </Descriptions.Item>
+
+          <Descriptions.Item label="البريد الإلكتروني">
+            {order.user?.email}
+          </Descriptions.Item>
+
+          <Descriptions.Item label="رقم الهاتف">
+            {order.user?.phone}
+          </Descriptions.Item>
+
+          <Descriptions.Item label="العنوان">
+            {order.user?.address}
+          </Descriptions.Item>
+
+          <Descriptions.Item label="التاريخ">
+            {order.orderDate}
+          </Descriptions.Item>
+
           <Descriptions.Item label="إجمالي المبلغ">
-            <span className="text-primary font-bold">${order.totalAmount}</span>
+            <span className="text-primary font-bold">
+              ${order.totalAmount}
+            </span>
           </Descriptions.Item>
         </Descriptions>
       </Card>

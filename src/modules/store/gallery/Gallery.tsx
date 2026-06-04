@@ -40,7 +40,14 @@ const Gallery: React.FC = () => {
   // Extract images array from response wrapper
   const images = Array.isArray(responseData) ? responseData : responseData?.data || [];
 
+  const getImageId = (img: any): number =>
+    img.galleryImageId || img.imageId || img.GalleryImageId || img.ImageId || 0;
+
   const handleDelete = (id: number) => {
+    if (!id || id <= 0) {
+      toast.error("معرف الصورة غير صالح");
+      return;
+    }
     dispatch(deleteResource("GalleryImages", id) as any).then((success: boolean) => {
       if (success) {
         dispatch(fetchCollection("GalleryImages") as any);
@@ -144,7 +151,7 @@ const Gallery: React.FC = () => {
               const absoluteUrl = getImageUrl(img.imageUrl);
               return (
                 <div
-                  key={img.galleryImageId}
+                  key={getImageId(img)}
                   className="relative group aspect-square rounded-xl overflow-hidden bg-dark-700/50 border border-dark-600/50 hover:border-primary/30 transition-all duration-300 shadow-lg shadow-black/10"
                 >
                   <img
@@ -162,7 +169,7 @@ const Gallery: React.FC = () => {
                     </button>
                     {canDelete && (
                       <DeleteBtn
-                        onClick={() => handleDelete(img.galleryImageId)}
+                        onClick={() => handleDelete(getImageId(img))}
                         title="حذف الصورة"
                         confirmTitle="هل أنت متأكد من حذف هذه الصورة من المعرض؟"
                       />

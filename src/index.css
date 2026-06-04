@@ -12,22 +12,32 @@ body {
   background-color: #0a0a0a;
   color: #ffffff;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  direction: rtl; /* Setting RTL by default as per design */
+  direction: rtl;
+  /* Setting RTL by default as per design */
 }
 
 /* Custom scrollbar for dark theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #121212;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #444;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
 }
 
 .premium-card {
