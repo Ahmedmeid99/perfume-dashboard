@@ -5,7 +5,7 @@
 export const getImageUrl = (url: string | null | undefined): string => {
   if (!url) return "";
   
-  if (url.startsWith("http://") || url.startsWith("https://")) {
+  if (url?.startsWith("http://") || url?.startsWith("https://")) {
     return url;
   }
   
@@ -13,5 +13,5 @@ export const getImageUrl = (url: string | null | undefined): string => {
   const apiUrl = import.meta.env.VITE_API_URL || "";
   const baseUrl = apiUrl.endsWith("/api") ? apiUrl.slice(0, -4) : apiUrl;
   
-  return `${baseUrl}${url.startsWith("/") ? "" : "/"}${url}`;
+  return `${baseUrl}${url?.startsWith("/") ? "" : "/"}${url}`;
 };

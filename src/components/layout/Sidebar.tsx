@@ -17,8 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/Auth";
 import type { RootState } from "../../redux/store";
 import { PERMISSIONS } from "../../constants/Permissions";
-import { getImageUrl } from "../../utils/image";
 import logo from "../../assets/logo.jpeg";
+import { getImageUrl } from "../../utils/image";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -38,8 +38,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const { user, permissionIds } = useSelector((state: RootState) => state.auth);
   const dashboard = useSelector((state: RootState) => state.dashboard);
   const company = dashboard?.data?.company;
-console.log("Sidebar company:", company);
-console.log("Sidebar user:", user);
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -50,7 +48,7 @@ console.log("Sidebar user:", user);
     return Array.isArray(permissionIds) && permissionIds.includes(permissionId);
   };
 
-  const companyLogo = company?.logo || user?.companyLogo;
+  const companyLogo = company?.logo || logo;
   const companyName = company?.companyNameAr || company?.companyName || user?.companyName || 'متجر سام';
   const companyDisplay = company?.companyName || user?.companyDisplay || 'SAM Perfume';
 
@@ -96,7 +94,8 @@ console.log("Sidebar user:", user);
           <div className="w-14 h-14 rounded-full overflow-hidden flex items-center justify-center bg-dark-700 flex-shrink-0">
             <img 
               // src="/assets/logo.jpeg" 
-              src={companyLogo }
+              // src={logo }
+              src={getImageUrl(companyLogo)}
               alt={companyName} 
               className="w-full h-full object-contain"
               onError={(e) => {

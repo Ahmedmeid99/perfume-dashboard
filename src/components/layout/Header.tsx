@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const dashboard = useSelector((state: RootState) => state.dashboard);
   const company = dashboard?.data?.company;
 
-  const companyLogo = company;
+  const companyLogo = company?.logo ;
   const companyName = company?.companyNameAr || company?.companyName || "متجر";
   const initial = companyName.charAt(0);
 

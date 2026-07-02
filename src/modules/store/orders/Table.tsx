@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Space, Tag, Input } from "antd";
-import { EyeOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { EyeOutlined,  SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { fetchCollection, fetchSubCollection } from "../../../redux/actions/Apis";
 import type { RootState } from "../../../redux/store";
 import { OrderStatusMap, OrderStatus } from "../../../constants/OrderStatus";
@@ -20,7 +19,6 @@ interface TableProps {
 const OrderTable: React.FC<TableProps> = ({ onView }) => {
   const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { data } = useSelector((state: any) => state.orders || { data: [] });
   const { loading } = useSelector((state: RootState) => state.common);
 

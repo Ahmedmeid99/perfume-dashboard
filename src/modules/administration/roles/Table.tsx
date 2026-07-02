@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Space, Input } from "antd";
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { Table, Space, Input } from "antd";
+import {  SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { fetchCollection, deleteResource } from "../../../redux/actions/Apis";
+import { fetchCollection } from "../../../redux/actions/Apis";
 import type { RootState } from "../../../redux/store";
 import EditBtn from "../../../components/ui/EditBtn";
-import DeleteBtn from "../../../components/ui/DeleteBtn";
 
 const RoleTable: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { data } = useSelector((state: any) => state.roles || { data: [] });
   const { loading } = useSelector((state: RootState) => state.common);
 
@@ -19,11 +16,11 @@ const RoleTable: React.FC = () => {
     dispatch(fetchCollection("Roles") as any);
   }, [dispatch]);
 
-  const handleDelete = (id: number) => {
-    dispatch(deleteResource("Roles", id) as any).then((success: boolean) => {
-      if (success) dispatch(fetchCollection("Roles") as any);
-    });
-  };
+  // const handleDelete = (id: number) => {
+  //   dispatch(deleteResource("Roles", id) as any).then((success: boolean) => {
+  //     if (success) dispatch(fetchCollection("Roles") as any);
+  //   });
+  // };
 
   const filterData = () => {
     if (!searchText) return data || [];
