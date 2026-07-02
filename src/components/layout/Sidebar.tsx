@@ -48,7 +48,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     return Array.isArray(permissionIds) && permissionIds.includes(permissionId);
   };
 
-  const companyLogo = company?.logo || logo;
+  const companyLogo = company?.logo;
   const companyName = company?.companyNameAr || company?.companyName || user?.companyName || 'متجر سام';
   const companyDisplay = company?.companyName || user?.companyDisplay || 'SAM Perfume';
 
@@ -95,7 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             <img 
               // src="/assets/logo.jpeg" 
               // src={logo }
-              src={getImageUrl(companyLogo)}
+              src={getImageUrl(companyLogo) || logo}
               alt={companyName} 
               className="w-full h-full object-contain"
               onError={(e) => {
