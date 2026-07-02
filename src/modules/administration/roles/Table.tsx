@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button, Space, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import EditBtn from "../../../components/ui/EditBtn";
 import DeleteBtn from "../../../components/ui/DeleteBtn";
 
 const RoleTable: React.FC = () => {
+  const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data } = useSelector((state: any) => state.roles || { data: [] });
@@ -24,6 +25,15 @@ const RoleTable: React.FC = () => {
     });
   };
 
+  const filterData = () => {
+    if (!searchText) return data || [];
+    return (data || []).filter((item: any) =>
+      Object.values(item).some((val: any) =>
+        String(val).toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
+  };
+
   const columns = [
     { title: "اسم الدور", dataIndex: "roleName", key: "roleName", className: "text-white" },
     { title: "الوصف", dataIndex: "description", key: "description", ellipsis: true },
@@ -33,7 +43,7 @@ const RoleTable: React.FC = () => {
       render: (_: any, record: any) => (
         <Space size="small">
           <EditBtn to={`${record.roleId}/edit`} />
-          <DeleteBtn onClick={() => handleDelete(record.roleId)} />
+          {/* <DeleteBtn onClick={() => handleDelete(record.roleId)} /> */}
         </Space>
       ),
     },
@@ -52,10 +62,12 @@ const RoleTable: React.FC = () => {
             <SearchOutlined className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
             <Input 
               placeholder="بحث عن دور..." 
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               className="bg-dark-700 border-none rounded-lg pr-10 py-2 text-white w-full h-11"
             />
           </div>
-          <Button 
+          {/* <Button 
             type="primary" 
             icon={<PlusOutlined />} 
             size="large"
@@ -63,12 +75,12 @@ const RoleTable: React.FC = () => {
             className="bg-primary hover:bg-blue-600 h-11 px-4 md:px-6 rounded-lg"
           >
             <span className="hidden md:inline">إضافة دور</span>
-          </Button>
+          </Button> */}
         </div>
 
         <Table 
           columns={columns}
-          dataSource={data || []} 
+          dataSource={filterData()} 
           rowKey="roleId"
           loading={loading}
           className="premium-table"

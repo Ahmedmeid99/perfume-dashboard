@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Rate, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import type { RootState } from "../../../redux/store";
 import dayjs from "dayjs";
 
 const ReviewTable: React.FC = () => {
+  const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
   const { data } = useSelector((state: any) => state.reviews || { data: [] });
   const { user } = useSelector((state: RootState) => state.auth);
@@ -17,6 +18,15 @@ const ReviewTable: React.FC = () => {
       dispatch(fetchCollection(`Reviews/company/${user.companyId}`) as any);
     }
   }, [dispatch, user]);
+
+  const filterData = () => {
+    if (!searchText) return data || [];
+    return (data || []).filter((item: any) =>
+      Object.values(item).some((val: any) =>
+        String(val).toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
+  };
 
   const columns = [
     { title: "Product", dataIndex: "productName", key: "productName", className: "text-white font-bold" },
@@ -49,6 +59,8 @@ const ReviewTable: React.FC = () => {
             <SearchOutlined className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
             <Input 
               placeholder="بحث في التقييمات..." 
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               className="bg-dark-700 border-none rounded-lg pr-10 py-2 text-white w-full h-11"
             />
           </div>
@@ -56,7 +68,7 @@ const ReviewTable: React.FC = () => {
 
         <Table
           columns={columns}
-          dataSource={data || []}
+          dataSource={filterData()}
           rowKey="reviewId"
           loading={loading}
           className="premium-table"

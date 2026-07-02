@@ -108,7 +108,7 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="flex-1 p-8 space-y-8">
+    <div className="flex-1 space-y-8">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-white">لوحة التحكم في المتجر</h1>
@@ -173,7 +173,7 @@ const Dashboard: React.FC = () => {
       )}
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
           <div key={i} className="premium-card p-6 flex flex-col items-center justify-center text-center">
             <span className="text-gray-400 text-sm mb-2">{stat.title}</span>

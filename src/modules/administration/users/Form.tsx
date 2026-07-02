@@ -72,10 +72,12 @@ const UserForm: React.FC<FormProps> = ({ userType = "users" }) => {
       dateOfBirth: payload.dateOfBirth ? payload.dateOfBirth.toISOString() : null,
     };
 
+    // Remove password if it's empty
+    if (!finalPayload.password || !finalPayload.password.trim()) {
+      delete finalPayload.password;
+    }
+
     if (id) {
-      if (!finalPayload.password) {
-        delete finalPayload.password;
-      }
       dispatch(updateResource("Users", id, finalPayload, (res) => {
         if (res === 200) navigate(userType === "admins" ? "/admins" : "/users");
       }) as any);

@@ -70,7 +70,6 @@ export const fetchSubCollection = (path: string, resource: string) => {
             type: `FETCH_${snakeCase(resource).toUpperCase()}_SUCCESS`,
             payload: data,
           });
-          console.log(data, `FETCH_${snakeCase(resource.split('?')[0]).toUpperCase()}_SUCCESS`,);
         } else {
           dispatch({ type: FETCH_ERROR, payload: data.error });
           toast.error(data.error || "Failed to fetch data");

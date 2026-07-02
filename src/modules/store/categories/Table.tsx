@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button, Space, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,8 +8,15 @@ import type { RootState } from "../../../redux/store";
 import EditBtn from "../../../components/ui/EditBtn";
 import DeleteBtn from "../../../components/ui/DeleteBtn";
 import { getImageUrl } from "../../../utils/image";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/ar";
+
+dayjs.extend(relativeTime);
+dayjs.locale("ar");
 
 const CategoryTable: React.FC = () => {
+  const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data } = useSelector((state: any) => state.categories || { data: [] });
@@ -23,6 +30,15 @@ const CategoryTable: React.FC = () => {
     dispatch(deleteResource("ProductCategories", id) as any).then((success: boolean) => {
       if (success) dispatch(fetchCollection("ProductCategories") as any);
     });
+  };
+
+  const filterData = () => {
+    if (!searchText) return data || [];
+    return (data || []).filter((item: any) =>
+      Object.values(item).some((val: any) =>
+        String(val).toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
   };
 
   const columns = [
@@ -46,7 +62,6 @@ const CategoryTable: React.FC = () => {
     },
     { title: "اسم التصنيف (EN)", dataIndex: "categoryName", key: "categoryName", className: "text-white" },
     { title: "اسم التصنيف (AR)", dataIndex: "categoryNameAr", key: "categoryNameAr", className: "text-white text-right" },
-    { title: "الوصف", dataIndex: "description", key: "description", ellipsis: true },
     {
       title: "العمليات",
       key: "actions",
@@ -72,6 +87,8 @@ const CategoryTable: React.FC = () => {
             <SearchOutlined className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
             <Input 
               placeholder="ابحث عن تصنيف..." 
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               className="bg-dark-700 border-none rounded-lg pr-10 py-2 text-white w-full h-11"
             />
           </div>
@@ -88,7 +105,7 @@ const CategoryTable: React.FC = () => {
 
         <Table 
           columns={columns}
-          dataSource={data || []} 
+          dataSource={filterData()} 
           rowKey="categoryId"
           loading={loading}
           className="premium-table"

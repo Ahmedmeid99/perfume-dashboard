@@ -61,12 +61,16 @@ const OrderDetails: React.FC = () => {
           column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
           className="premium-descriptions"
         >
-          <Descriptions.Item label="العميل">
-            {order.user?.userName}
+          {/* <Descriptions.Item label="رقم العميل">
+            {order.user?.userId}
+          </Descriptions.Item> */}
+
+          <Descriptions.Item label="رمز الطلب">
+            {order.orderCode}
           </Descriptions.Item>
 
-          <Descriptions.Item label="رقم العميل">
-            {order.user?.userId}
+          <Descriptions.Item label="العميل">
+            {order.user?.userName}
           </Descriptions.Item>
 
           <Descriptions.Item label="البريد الإلكتروني">

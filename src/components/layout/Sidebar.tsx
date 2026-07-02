@@ -13,12 +13,12 @@ import {
   LockOutlined,
   PictureOutlined
 } from "@ant-design/icons";
-
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/Auth";
 import type { RootState } from "../../redux/store";
 import { PERMISSIONS } from "../../constants/Permissions";
 import { getImageUrl } from "../../utils/image";
+import logo from "../../assets/logo.jpeg";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -38,7 +38,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const { user, permissionIds } = useSelector((state: RootState) => state.auth);
   const dashboard = useSelector((state: RootState) => state.dashboard);
   const company = dashboard?.data?.company;
-
+console.log("Sidebar company:", company);
+console.log("Sidebar user:", user);
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -90,20 +91,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
   return (
     <aside className={`w-64 h-screen bg-dark-800 border-l border-dark-600 flex flex-col fixed right-0 top-0 z-50 transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"}`}>
-      <div className="p-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center bg-primary">
-            {companyLogo ? (
-              <img src={getImageUrl(companyLogo)} alt={companyName} className="object-cover w-full h-full" />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">
-                {(companyName || 'C').charAt(0)}
-              </div>
-            )}
+      <div className="p-6 flex items-center justify-between border-b border-dark-600">
+        <div className="flex items-center gap-4 flex-1">
+          <div className="w-14 h-14 rounded-full overflow-hidden flex items-center justify-center bg-dark-700 flex-shrink-0">
+            <img 
+              // src="/assets/logo.jpeg" 
+              src={companyLogo }
+              alt={companyName} 
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
           </div>
-          <div>
-            <h2 className="text-white font-bold text-sm leading-tight truncate max-w-[130px]" title={companyName}>{companyName}</h2>
-            <p className="text-gray-500 text-xs truncate max-w-[130px]" title={companyDisplay}>{companyDisplay}</p>
+          <div className="min-w-0">
+            <h2 className="text-white font-bold text-sm leading-tight truncate" title={companyName}>{companyName}</h2>
+            <p className="text-gray-500 text-xs truncate" title={companyDisplay}>{companyDisplay}</p>
           </div>
         </div>
         <Button

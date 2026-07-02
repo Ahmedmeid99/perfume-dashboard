@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Table, Button, Space, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Table, Button, Space, Tag, Input } from "antd";
 import { UserAddOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ interface TableProps {
 }
 
 const UserTable: React.FC<TableProps> = ({ userType = "users" }) => {
+  const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data } = useSelector((state: any) => state.users || { data: [] });
@@ -36,6 +37,15 @@ const UserTable: React.FC<TableProps> = ({ userType = "users" }) => {
         }
       }
     });
+  };
+
+  const filterData = () => {
+    if (!searchText) return data || [];
+    return (data || []).filter((item: any) =>
+      Object.values(item).some((val: any) =>
+        String(val).toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
   };
 
   const columns = [
@@ -75,8 +85,10 @@ const UserTable: React.FC<TableProps> = ({ userType = "users" }) => {
         <div className="flex items-center gap-3 mb-6">
           <div className="relative flex-1">
             <SearchOutlined className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
-            <input
+            <Input
               placeholder={userType === "admins" ? "ابحث عن مدير..." : "ابحث عن مستخدم..."}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               className="bg-dark-700 border-none rounded-lg pr-10 py-2 text-white w-full h-11 focus:ring-1 focus:ring-primary"
             />
           </div>
@@ -95,7 +107,7 @@ const UserTable: React.FC<TableProps> = ({ userType = "users" }) => {
 
         <Table
           columns={columns}
-          dataSource={data || []}
+          dataSource={filterData()}
           rowKey="userId"
           loading={loading}
           className="premium-table"
